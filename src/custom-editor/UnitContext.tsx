@@ -9,7 +9,7 @@ interface IUnitContextValue {
 
 export const UnitContext = React.createContext({} as IUnitContextValue);
 
-function UnitContextProvider({ children, isAdmin }: PropsWithChildren<{isAdmin : boolean}>) {
+function UnitContextProvider({ children, isAdmin }: PropsWithChildren<{ isAdmin: boolean }>) {
     const [editingPropName, setEditingPropName] = useState("");
 
     return (
@@ -25,7 +25,7 @@ function UnitContextProvider({ children, isAdmin }: PropsWithChildren<{isAdmin :
     );
 }
 
-export default function BricksUnitContextProvider({children} : PropsWithChildren<{}>){
-    const {isAdmin} = useAdminContext()
-    return <UnitContextProvider isAdmin={isAdmin}>{children}</UnitContextProvider>
+export default function BricksUnitContextProvider({ children }: PropsWithChildren<{}>) {
+    const { isAdmin } = useAdminContext();
+    return <UnitContextProvider isAdmin={isAdmin}>{children}</UnitContextProvider>;
 }

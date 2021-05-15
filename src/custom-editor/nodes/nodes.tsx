@@ -1,4 +1,4 @@
-import nodeTypes from './nodeTypes';
+import nodeTypes from "./nodeTypes";
 
 interface NodeProps {
     id: number;
@@ -10,7 +10,7 @@ interface SpaceNodeProps extends NodeProps {
     onClick: VoidFunction;
 }
 
-export const SpaceNode : React.VFC<SpaceNodeProps> = ({ id, onClick }) => {
+export const SpaceNode: React.VFC<SpaceNodeProps> = ({ id, onClick }) => {
     return (
         <span data-edit-it={id} onClick={onClick}>
             {" "}
@@ -24,54 +24,47 @@ export const textNodeTagTypes = {
 } as const;
 
 interface TextNodeProps extends NodeProps {
-    type: typeof nodeTypes["TEXT"] ;
+    type: typeof nodeTypes["TEXT"];
     onClick: VoidFunction;
-    tagType?:typeof textNodeTagTypes["SPAN" | "BOLD"];
+    tagType?: typeof textNodeTagTypes["SPAN" | "BOLD"];
     isSelected: boolean;
 }
 
-export const TextNode : React.FC<TextNodeProps>= ({ children, tagType = "span", id, onClick, isSelected }) => {
+export const TextNode: React.FC<TextNodeProps> = ({ children, tagType = "span", id, onClick, isSelected }) => {
     const style = {
         textDecoration: isSelected ? "underline" : "none",
     };
-    
-    const Tag = ({bold: "b", span: "span"})[tagType] as keyof JSX.IntrinsicElements;
-    
+
+    const Tag = { bold: "b", span: "span" }[tagType] as keyof JSX.IntrinsicElements;
+
     return (
         <Tag data-edit-it={id} onClick={onClick} style={style}>
             {children}
         </Tag>
     );
-    
 };
 
-
-
 interface IconNodeProps extends NodeProps {
-    type: typeof nodeTypes["STAR"] ;
-    size?: Pick<React.CSSProperties,"height" | "width">
+    type: typeof nodeTypes["STAR"];
+    size?: Pick<React.CSSProperties, "height" | "width">;
 }
 
-const StarNode : React.VFC<Omit<IconNodeProps,"type">> = ({id, size}) => (
-    <img
-    data-edit-it={id}
-    style={{...size, display: "inline-block" }}
-    src="/icon-star-dark.svg"
-/>
-)
+const StarNode: React.VFC<Omit<IconNodeProps, "type">> = ({ id, size }) => (
+    <img data-edit-it={id} style={{ ...size, display: "inline-block" }} src="/icon-star-dark.svg" />
+);
 
-export const IconNode : React.VFC<IconNodeProps> = ({ id, type, size = { width: 15, height: 15 } }) => {
- const componentByType = {
-     [nodeTypes.STAR] : StarNode
- }
+export const IconNode: React.VFC<IconNodeProps> = ({ id, type, size = { width: 15, height: 15 } }) => {
+    const componentByType = {
+        [nodeTypes.STAR]: StarNode,
+    };
 
- const Icon = componentByType[type];
+    const Icon = componentByType[type];
 
- return <Icon id={id} size={size} />
+    return <Icon id={id} size={size} />;
 };
 
 interface SpaceNodeProps extends NodeProps {
-    type: typeof nodeTypes["SPACE"] ;
+    type: typeof nodeTypes["SPACE"];
 }
 
-export const BrNode : React.VFC<SpaceNodeProps> = ({ id }) => <br data-edit-it={id} />;
+export const BrNode: React.VFC<SpaceNodeProps> = ({ id }) => <br data-edit-it={id} />;
