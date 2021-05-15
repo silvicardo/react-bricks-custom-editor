@@ -1,4 +1,6 @@
 import nodeTypes from "./nodeTypes";
+import React, { HTMLAttributes, PropsWithChildren } from "react";
+import iconStar from "./../../assets/icon-star-dark.svg";
 
 interface NodeProps {
     id: number;
@@ -7,12 +9,18 @@ interface NodeProps {
 
 interface SpaceNodeProps extends NodeProps {
     type: typeof nodeTypes["SPACE"];
-    onClick: VoidFunction;
+    onClick: (id: number) => void;
 }
 
 export const SpaceNode: React.VFC<SpaceNodeProps> = ({ id, onClick }) => {
     return (
-        <span data-edit-it={id} onClick={onClick}>
+        <span
+            data-edit-it={id}
+            onClick={(e) => {
+                e.stopPropagation();
+                onClick(id);
+            }}
+        >
             {" "}
         </span>
     );
@@ -25,8 +33,8 @@ export const textNodeTagTypes = {
 
 interface TextNodeProps extends NodeProps {
     type: typeof nodeTypes["TEXT"];
-    onClick: VoidFunction;
-    tagType?: typeof textNodeTagTypes["SPAN" | "BOLD"];
+    onClick: (id: number) => void;
+    tagType: typeof textNodeTagTypes["SPAN" | "BOLD"];
     isSelected: boolean;
 }
 
@@ -35,12 +43,23 @@ export const TextNode: React.FC<TextNodeProps> = ({ children, tagType = "span", 
         textDecoration: isSelected ? "underline" : "none",
     };
 
-    const Tag = { bold: "b", span: "span" }[tagType] as keyof JSX.IntrinsicElements;
+    const Element = {
+        [textNodeTagTypes.BOLD]: ({ children, ...rest }: PropsWithChildren<HTMLAttributes<HTMLBaseFontElement>>) => (
+            <b {...rest}>{children}</b>
+        ),
+        [textNodeTagTypes.SPAN]: ({ children, ...rest }: PropsWithChildren<HTMLAttributes<HTMLBaseFontElement>>) => (
+            <span {...rest}>{children}</span>
+        ),
+    }[tagType];
 
+    const onClicked: React.MouseEventHandler<HTMLBaseFontElement> = (e) => {
+        e.stopPropagation();
+        onClick(id);
+    };
     return (
-        <Tag data-edit-it={id} onClick={onClick} style={style}>
+        <Element data-edit-it={id} onClick={onClicked} style={style}>
             {children}
-        </Tag>
+        </Element>
     );
 };
 
@@ -50,7 +69,7 @@ interface IconNodeProps extends NodeProps {
 }
 
 const StarNode: React.VFC<Omit<IconNodeProps, "type">> = ({ id, size }) => (
-    <img data-edit-it={id} style={{ ...size, display: "inline-block" }} src="/icon-star-dark.svg" />
+    <img data-edit-it={id} style={{ ...size, display: "inline-block" }} src={iconStar} alt={"star"} />
 );
 
 export const IconNode: React.VFC<IconNodeProps> = ({ id, type, size = { width: 15, height: 15 } }) => {
@@ -63,8 +82,8 @@ export const IconNode: React.VFC<IconNodeProps> = ({ id, type, size = { width: 1
     return <Icon id={id} size={size} />;
 };
 
-interface SpaceNodeProps extends NodeProps {
-    type: typeof nodeTypes["SPACE"];
+interface BrNodeProps extends NodeProps {
+    type: typeof nodeTypes["BR"];
 }
 
-export const BrNode: React.VFC<SpaceNodeProps> = ({ id }) => <br data-edit-it={id} />;
+export const BrNode: React.VFC<BrNodeProps> = ({ id }) => <br data-edit-it={id} />;

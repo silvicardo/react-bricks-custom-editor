@@ -1,8 +1,8 @@
 import { useState } from "react";
 import useInterval from "../utils/useInterval";
 
-export default function FakeCursor(props) {
-    const [isTransparent, setIsTransparent] = useState < boolean > false;
+export default function FakeCursor(props : {}) {
+    const [isTransparent, setIsTransparent] = useState<boolean>( false);
     useInterval(() => {
         setIsTransparent((prevIsTransparent) => !prevIsTransparent);
     }, 500);
