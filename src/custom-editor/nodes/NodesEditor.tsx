@@ -7,14 +7,14 @@ interface NodesEditorProps {
     onClick: (id: number) => void;
     type?: typeof nodeTypes[keyof typeof nodeTypes];
     isSelected: boolean;
-    tagType?: typeof textNodeTagTypes[keyof typeof textNodeTagTypes] | "";
+    tagType?: typeof textNodeTagTypes[keyof typeof textNodeTagTypes];
     children?: string;
 }
 export default function NodesEditor({
     id,
     onClick,
     type = "text",
-    tagType = "",
+    tagType = "span",
     isSelected,
     children = "",
 }: NodesEditorProps) {
@@ -23,7 +23,7 @@ export default function NodesEditor({
             <TextNode
                 type={nodeTypes.TEXT}
                 id={id}
-                tagType={tagType || textNodeTagTypes.SPAN}
+                tagType={tagType}
                 onClick={onClick}
                 isSelected={isSelected}
                 children={children}

@@ -14,7 +14,7 @@ export type Node =
           id: number;
           type: typeof nodeTypes.TEXT;
           props: {
-              tagType: typeof textNodeTagTypes.BOLD | typeof textNodeTagTypes.SPAN | "";
+              tagType: typeof textNodeTagTypes.BOLD | typeof textNodeTagTypes.SPAN;
               children: string;
           };
       };
@@ -43,8 +43,7 @@ export default function nodesReducer(state: NodesState, action: AnyAction) {
         const originalState = original(draftState) as NodesState;
         console.log("originalState", originalState, "action:", action);
         const isLastNodeASpaceNode = originalState.nodes[originalState.nodes.length - 1].type === nodeTypes.SPACE;
-        const isLastAvailableNode =
-            originalState.nodes[originalState.nodes.length - 1].id === originalState.nodes.length;
+        //const isLastAvailableNode = originalState.nodes[originalState.nodes.length - 1].id === originalState.nodes.length;
 
         switch (action.type) {
             case "REMOVE_LAST_NODE":
@@ -74,7 +73,7 @@ export default function nodesReducer(state: NodesState, action: AnyAction) {
                     id: originalState.nodes.length + (isLastNodeASpaceNode ? 1 : 2),
                     type: nodeTypes.TEXT,
                     props: {
-                        tagType: "",
+                        tagType: "span",
                         children: "",
                     },
                 });
@@ -88,7 +87,7 @@ export default function nodesReducer(state: NodesState, action: AnyAction) {
                         id: originalState.nodes.length + 1,
                         type: nodeTypes.TEXT,
                         props: {
-                            tagType: "",
+                            tagType: "span",
                             children: "",
                         },
                     });
@@ -105,7 +104,7 @@ export default function nodesReducer(state: NodesState, action: AnyAction) {
                         id: originalState.nodes.length + 2,
                         type: nodeTypes.TEXT,
                         props: {
-                            tagType: "",
+                            tagType: "span",
                             children: "",
                         },
                     });
@@ -118,7 +117,7 @@ export default function nodesReducer(state: NodesState, action: AnyAction) {
                     id: draftState.nodes.length + 1,
                     type: nodeTypes.TEXT,
                     props: {
-                        tagType: "",
+                        tagType: "span",
                         children: "",
                     },
                 });
@@ -158,7 +157,9 @@ export default function nodesReducer(state: NodesState, action: AnyAction) {
                             props: {
                                 ...currentNode.props,
                                 tagType:
-                                    currentNode.props.tagType === textNodeTagTypes.BOLD ? "" : textNodeTagTypes.BOLD,
+                                    currentNode.props.tagType === textNodeTagTypes.BOLD
+                                        ? textNodeTagTypes.SPAN
+                                        : textNodeTagTypes.BOLD,
                             },
                         };
                     }

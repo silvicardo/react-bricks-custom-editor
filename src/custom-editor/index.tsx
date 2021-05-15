@@ -6,6 +6,7 @@ import FakeCursor from "./FakeCursor";
 import NodesViewer from "./nodes/NodesViewer";
 import NodesEditor from "./nodes/NodesEditor";
 import nodeTypes from "./nodes/nodeTypes";
+import { IconNode } from "./nodes/nodes";
 
 interface CustomEditorProps {
     value: string;
@@ -36,7 +37,7 @@ const CustomEditor: React.VFC<CustomEditorProps> = ({
 
     const loggedDispatch = (action: AnyAction) => {
         dispatch(action);
-        if (editingPropName !== propName) {
+        if (editingPropName !== propName && setEditingPropName) {
             setEditingPropName(propName);
         }
         //console.log("dipatched: ", action);
@@ -168,11 +169,11 @@ const CustomEditor: React.VFC<CustomEditorProps> = ({
     }, [isEditorOpen]);
 
     useEffect(() => {
-        if (!isSubmittingNodes) {
+        if (isSubmittingNodes) {
             setNodes(JSON.stringify(nodesState.nodes));
             setIsSubmittingNodes(false);
         }
-    }, [nodesState, isSubmittingNodes, setNodes]);
+    }, [nodesState, isSubmittingNodes]);
 
     useEffect(() => {
         if (isEditorOpen && editingPropName !== propName) {
@@ -192,10 +193,7 @@ const CustomEditor: React.VFC<CustomEditorProps> = ({
                                 style={{ display: "inline-flex", border: "1px solid #1E201F" }}
                             >
                                 <button className={"px-20 py-10 btn-secondary"} onClick={onAddStar}>
-                                    <div
-                                        className="icon-av-star-dark star-icon vcenter"
-                                        style={{ width: "14px", height: "14px" }}
-                                    />{" "}
+                                    <IconNode id={1245} type={nodeTypes.STAR} />
                                 </button>
                                 <button className={"px-20 py-10 btn-secondary"} onClick={onAddNextLine}>
                                     {"<br>"}

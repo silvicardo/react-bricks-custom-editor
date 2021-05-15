@@ -38,7 +38,7 @@ interface TextNodeProps extends NodeProps {
     isSelected: boolean;
 }
 
-export const TextNode: React.FC<TextNodeProps> = ({ children, tagType = "span", id, onClick, isSelected }) => {
+export const TextNode: React.FC<TextNodeProps> = ({ children, tagType, id, onClick, isSelected }) => {
     const style = {
         textDecoration: isSelected ? "underline" : "none",
     };
