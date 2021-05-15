@@ -12,7 +12,7 @@ interface SpaceNodeProps extends NodeProps {
 
 export const SpaceNode : React.VFC<SpaceNodeProps> = ({ id, onClick }) => {
     return (
-        <span data-gc-edit-id={id} onClick={onClick}>
+        <span data-edit-it={id} onClick={onClick}>
             {" "}
         </span>
     );
@@ -30,41 +30,48 @@ interface TextNodeProps extends NodeProps {
     isSelected: boolean;
 }
 
-export const TextNode : React.FC<TextNodeProps>= ({ children, tagType = "", id, onClick, isSelected }) => {
+export const TextNode : React.FC<TextNodeProps>= ({ children, tagType = "span", id, onClick, isSelected }) => {
     const style = {
         textDecoration: isSelected ? "underline" : "none",
     };
-
-    if (tagType === "bold") {
-        return (
-            <b data-gc-edit-id={id} onClick={onClick} style={style}>
-                {children}
-            </b>
-        );
-    }
+    
+    const Tag = ({bold: "b", span: "span"})[tagType] as keyof JSX.IntrinsicElements;
+    
     return (
-        <span data-gc-edit-id={id} onClick={onClick} style={style}>
+        <Tag data-edit-it={id} onClick={onClick} style={style}>
             {children}
-        </span>
+        </Tag>
     );
+    
 };
 
 
 
-interface StarNodeProps extends NodeProps {
+interface IconNodeProps extends NodeProps {
     type: typeof nodeTypes["STAR"] ;
+    size?: Pick<React.CSSProperties,"height" | "width">
 }
 
-export const StarNode : React.VFC<StarNodeProps> = ({ id }) => (
-    <span
-        data-gc-edit-id={id}
-        className="icon-av-star-dark star-icon vcenter inline-block"
-        style={{ width: "14px", height: "14px" }}
-    />
-);
+const StarNode : React.VFC<Omit<IconNodeProps,"type">> = ({id, size}) => (
+    <img
+    data-edit-it={id}
+    style={{...size, display: "inline-block" }}
+    src="/icon-star-dark.svg"
+/>
+)
+
+export const IconNode : React.VFC<IconNodeProps> = ({ id, type, size = { width: 15, height: 15 } }) => {
+ const componentByType = {
+     [nodeTypes.STAR] : StarNode
+ }
+
+ const Icon = componentByType[type];
+
+ return <Icon id={id} size={size} />
+};
 
 interface SpaceNodeProps extends NodeProps {
     type: typeof nodeTypes["SPACE"] ;
 }
 
-export const BrNode : React.VFC<SpaceNodeProps> = ({ id }) => <br data-gc-edit-id={id} />;
+export const BrNode : React.VFC<SpaceNodeProps> = ({ id }) => <br data-edit-it={id} />;
