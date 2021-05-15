@@ -1,12 +1,12 @@
-import React from 'react'
-import { Admin, Login } from 'react-bricks'
+import React from "react";
+import { Admin, Login } from "react-bricks";
 
 const LoginPage = () => {
-  return (
-    <Admin isLogin>
-      <Login />
-    </Admin>
-  )
-}
+    return (
+        <Admin isLogin>
+            <Login />
+        </Admin>
+    );
+};
 
-export default LoginPage
+export default LoginPage;

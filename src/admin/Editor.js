@@ -1,12 +1,12 @@
-import React from 'react'
-import { Admin, Editor } from 'react-bricks'
+import React from "react";
+import { Admin, Editor } from "react-bricks";
 
 const EditorPage = () => {
-  return (
-    <Admin>
-      <Editor />
-    </Admin>
-  )
-}
+    return (
+        <Admin>
+            <Editor />
+        </Admin>
+    );
+};
 
-export default EditorPage
+export default EditorPage;
