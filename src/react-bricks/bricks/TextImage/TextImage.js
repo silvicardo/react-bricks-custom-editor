@@ -1,9 +1,9 @@
-import React from 'react'
 import classNames from 'classnames'
-import { Text, RichText, Image, Plain, types } from 'react-bricks'
-
-import BlockNames from '../BlockNames'
+import React from 'react'
+import { Image, Plain, RichText, Text, types } from 'react-bricks'
+import BlockNames from '../blockNames'
 import styles from './TextImage.module.css'
+
 
 //=============================
 // Enums
@@ -45,17 +45,14 @@ const TextImage = ({
           >
             <Text
               renderBlock={props => <h2>{props.children}</h2>}
-              value={title}
               placeholder="Type a title..."
               propName="title"
-              onChange={onChange}
             />
             <RichText
               renderBlock={props => <p>{props.children}</p>}
-              value={text}
+              
               placeholder="Type a text..."
               propName="text"
-              onChange={onChange}
               allowedFeatures={[
                 types.RichTextFeatures.Bold,
                 types.RichTextFeatures.Italic,
@@ -73,10 +70,7 @@ const TextImage = ({
               imageClassName={classNames(styles.image, {
                 [styles.image_rounded]: rounded,
               })}
-              source={imageSource}
-              alt={altText}
               propName="imageSource"
-              onChange={onChange}
             />
           </div>
         </React.Fragment>
@@ -116,7 +110,7 @@ const sideEditProps = [
     type: types.SideEditPropType.Select,
     selectOptions: {
       display: types.OptionsDisplay.Color,
-      options: [Colors.white, Colors.lightGray],
+      options: [{label: "white", value:{color: Colors.white}},{label: "light-gray", value: {color: Colors.lightGray}} ],
     },
   },
   {
@@ -146,14 +140,11 @@ const sideEditProps = [
 //=============================
 // Exported BlockType Schema
 //=============================
-const schema = {
+TextImage.schema = {
   name: BlockNames.TextImage,
   label: 'Text-Image',
-  superType: types.BlockSuperType.Single,
-  render: props => <TextImage {...props} />,
   getDefaultProps,
   sideEditProps,
-  textEditProps: ['title', 'text'],
 }
 
-export default schema
+export default TextImage

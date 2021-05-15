@@ -1,15 +1,13 @@
-import React from 'react'
 import { Link, navigate } from '@reach/router'
+import React from 'react'
+import bricks from './bricks'
 import pageTypeSchema from './pageTypeSchema'
-import blockTypeSchema from './bricks'
 
 const config = {
-  appId: '2c45e3ec-6e8e-4445-8c5d-63cecacfc2ba',
-  apiKey: '55fb8b1a-25ea-4733-a6af-19bc55cb919c',
+  appId: process.env.REACT_APP_BRICKS_APP_ID,
+  apiKey: process.env.REACT_APP_BRICKS_API_KEY,
   pageTypeSchema,
-  blockTypeSchema,
-  //logo,
-  //contentClassName: 'content',
+  bricks,
   renderLocalLink: ({ href, children, className, activeClassName }) => {
     const isActive = ({ isCurrent }) => {
       return isCurrent ? { className: activeClassName } : {}
@@ -25,7 +23,8 @@ const config = {
   loginPath: '/login',
   editorPath: '/editor',
   playgroundPath: '/playground',
-  appSettingsPath: '/app-settings'
+  appSettingsPath: '/app-settings',
+  appRootElement: "#root",
 }
 
 export default config

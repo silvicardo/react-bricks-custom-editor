@@ -1,13 +1,9 @@
-import heroUnit from './HeroUnit/HeroUnit'
-import textImage from './TextImage/TextImage'
-import features from './Features/Features'
-import featureItem from './Features/FeatureItem'
+import HeroUnit from './HeroUnit/HeroUnit'
+import TextImage from './TextImage/TextImage'
 
-const schema = [
-  Object.freeze(heroUnit),
-  Object.freeze(textImage),
-  Object.freeze(features),
-  Object.freeze(featureItem),
+const bricks = [
+  HeroUnit,
+  TextImage,
 ]
 
-export default schema
+export default bricks
