@@ -7,15 +7,21 @@ import styles from "./HeroUnit.module.css";
 //=============================
 // Padding enum
 //=============================
-const Padding = Object.freeze({
+const Padding = {
     Big: "BIG",
     Small: "SMALL",
-});
+} as const;
+
+interface HeroUnitProps {
+    padding: typeof Padding[keyof typeof Padding];
+    title: string;
+    text: string;
+}
 
 //=============================
 // Component to be rendered
 //=============================
-const HeroUnit = ({ padding }) => {
+const HeroUnit: types.Brick<HeroUnitProps> = ({ padding }) => {
     return (
         <div
             className={classNames(
@@ -56,7 +62,7 @@ const HeroUnit = ({ padding }) => {
 //=============================
 // Get Default Props
 //=============================
-const getDefaultProps = () => ({
+const getDefaultProps = (): HeroUnitProps => ({
     padding: Padding.Big,
     title: "We develop beautiful web applications",
     text: "We are a hi-tech web development company committed to deliver great products on time. We love to understand our customers' needs and exceed expectations.",
@@ -65,7 +71,7 @@ const getDefaultProps = () => ({
 //=============================
 // Side Edit Props
 //=============================
-const sideEditProps = [
+const sideEditProps: (types.ISideEditProp | types.ISideGroup)[] = [
     {
         name: "padding",
         label: "Padding",

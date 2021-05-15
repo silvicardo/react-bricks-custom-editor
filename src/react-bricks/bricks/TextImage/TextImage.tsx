@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import React from "react";
-import { Image, Plain, RichText, Text, types } from "react-bricks";
+import { Image, RichText, Text, types } from "react-bricks";
 import BlockNames from "../blockNames";
 import styles from "./TextImage.module.css";
 
@@ -10,18 +10,26 @@ import styles from "./TextImage.module.css";
 const ImageSide = {
     Right: "RIGHT",
     Left: "LEFT",
-};
+} as const;
 const Colors = {
     white: { value: "#fff", label: "White" },
     lightGray: { value: "#f7fafc", label: "Light Gray" },
-};
+} as const;
+
+interface TextImageProps {
+    backgroundColor: typeof Colors[keyof typeof Colors];
+    imageSide: typeof ImageSide[keyof typeof ImageSide];
+    title: string;
+    text: string;
+    rounded: boolean;
+}
 
 //=============================
 // Component to be rendered
 //=============================
-const TextImage = ({ onChange, backgroundColor, imageSide, imageSource, altText, title, text, rounded }) => {
+const TextImage: types.Brick<TextImageProps> = ({ backgroundColor, imageSide, rounded }) => {
     return (
-        <section className={styles.text_image} style={{ backgroundColor }}>
+        <section className={styles.text_image} style={{ backgroundColor: backgroundColor.value }}>
             <div
                 className={classNames(styles.container, {
                     [styles.container_reverse]: imageSide === ImageSide.Left,
@@ -59,6 +67,7 @@ const TextImage = ({ onChange, backgroundColor, imageSide, imageSource, altText,
                             imageClassName={classNames(styles.image, {
                                 [styles.image_rounded]: rounded,
                             })}
+                            alt="fallback"
                             propName="imageSource"
                         />
                     </div>
@@ -71,26 +80,19 @@ const TextImage = ({ onChange, backgroundColor, imageSide, imageSource, altText,
 //=============================
 // Get Default Props
 //=============================
-const getDefaultProps = () => ({
+const getDefaultProps = (): TextImageProps => ({
     backgroundColor: Colors.white,
     imageSide: ImageSide.Right,
-    imageSource: {
-        src: "https://api.reactbricks.com/images/original/55498a00-5e32-11ea-b64f-f36644626031.svg",
-        placeholderSrc: "https://api.reactbricks.com/images/original/55498a00-5e32-11ea-b64f-f36644626031.svg",
-        srcSet: "",
-    },
-    altText: "You can trust us",
-    title: Plain.deserialize("You can trust us"),
-    text: Plain.deserialize(
-        "We create and host websites since 1997. We saw the Internet grow up as the standards evolved. We have built hundreds of successful web applications and we still have a lot of fun."
-    ),
+    title: "You can trust us",
+    text: "We create and host websites since 1997. We saw the Internet grow up as the standards evolved. We have built hundreds of successful web applications and we still have a lot of fun.",
     rounded: false,
 });
 
 //=============================
 // Side Edit Props
 //=============================
-const sideEditProps = [
+
+const sideEditProps: (types.ISideEditProp | types.ISideGroup)[] = [
     {
         name: "backgroundColor",
         label: "Background",
@@ -114,11 +116,6 @@ const sideEditProps = [
                 { value: ImageSide.Left, label: "Left" },
             ],
         },
-    },
-    {
-        name: "altText",
-        label: "Image Alt Text",
-        type: types.SideEditPropType.Text,
     },
     {
         name: "rounded",
